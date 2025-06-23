@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Buscar Botes</title>
+  <link rel="stylesheet" href="estilos.css">
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    #busqueda {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Buscar Botes</h1>
+
+    <input type="text" id="busqueda" placeholder="Escribe para buscar por cualquier campo...">
+
+    <table id="tablaBotes">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tipo de Residuo</th>
+          <th>Ubicación</th>
+          <th>Capacidad (L)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Datos insertados dinámicamente -->
+      </tbody>
+    </table>
+
+    <a href="index.html"><button style="margin-top: 20px;">⬅ Volver al menú</button></a>
+  </div>
+
+  <script>
+    let botes = [];
+
+    async function cargarBotes() {
+      try {
+        const res = await fetch('/botes');
+        botes = await res.json();
+        mostrarBotes(botes);
+      } catch (err) {
+        alert('Error al cargar los botes');
+        console.error(err);
+      }
+    }
+
+    function mostrarBotes(lista) {
+      const tbody = document.querySelector('#tablaBotes tbody');
+      tbody.innerHTML = '';
+
+      lista.forEach(bote => {
+        const fila = document.createElement('tr');
+        fila.innerHTML = `
+          <td>${bote.id}</td>
+          <td>${bote.tipoResiduo}</td>
+          <td>${bote.ubicacion}</td>
+          <td>${bote.capacidad}</td>
+        `;
+        tbody.appendChild(fila);
+      });
+    }
+
+    function filtrarBotes() {
+      const query = document.getElementById('busqueda').value.toLowerCase();
+
+      const filtrados = botes.filter(bote => {
+        return Object.values(bote).some(valor =>
+          valor.toString().toLowerCase().includes(query)
+        );
+      });
+
+      mostrarBotes(filtrados);
+    }
+
+    document.getElementById('busqueda').addEventListener('input', filtrarBotes);
+    window.onload = cargarBotes;
+  </script>
+</body>
+</html>

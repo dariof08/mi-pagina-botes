@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Actualizar Bote</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Actualizar Bote</h1>
+    <form id="formulario">
+      <input type="text" name="id" placeholder="ID del bote a actualizar" required>
+
+      <input type="text" name="tipoResiduo" placeholder="Nuevo tipo de residuo">
+      <input type="text" name="ubicacion" placeholder="Nueva ubicación">
+      <input type="number" name="capacidad" placeholder="Nueva capacidad">
+
+      <button type="submit">Actualizar</button>
+    </form>
+    <a href="index.html">Volver al menú</a>
+  </div>
+
+  <script>
+    document.getElementById('formulario').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const id = e.target.id.value;
+      const actualizaciones = {};
+
+      if (e.target.tipoResiduo.value) actualizaciones.tipoResiduo = e.target.tipoResiduo.value;
+      if (e.target.ubicacion.value) actualizaciones.ubicacion = e.target.ubicacion.value;
+      if (e.target.capacidad.value) actualizaciones.capacidad = e.target.capacidad.value;
+
+      const res = await fetch(`/botes/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(actualizaciones)
+      });
+
+      const resultado = await res.json();
+      if (resultado.error) alert('Error: ' + resultado.error);
+      else alert('Bote actualizado');
+    });
+  </script>
+</body>
+</html>

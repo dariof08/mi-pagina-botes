@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registrar Bote</title>
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Registrar nuevo bote</h1>
+
+    <form id="formulario">
+      <input type="number" name="id" placeholder="ID del bote" required><br>
+      <input type="text" name="tipoResiduo" placeholder="Tipo de residuo" required><br>
+      <input type="text" name="ubicacion" placeholder="Ubicación" required><br>
+      <input type="number" name="capacidad" placeholder="Capacidad en litros" required><br>
+      <button type="submit">Guardar</button>
+    </form>
+
+    <a href="index.html"><button style="margin-top: 20px;">⬅ Volver al menú</button></a>
+  </div>
+
+  <script>
+    document.getElementById('formulario').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = {
+        id: parseInt(e.target.id.value),
+        tipoResiduo: e.target.tipoResiduo.value,
+        ubicacion: e.target.ubicacion.value,
+        capacidad: parseInt(e.target.capacidad.value)
+      };
+
+      // Validar ID duplicado
+      const resVerificar = await fetch('/botes');
+      const botes = await resVerificar.json();
+      const existeId = botes.some(b => b.id === formData.id);
+
+      if (existeId) {
+        alert('❌ Ya existe un bote con ese ID.');
+        return;
+      }
+
+      // Guardar
+      const res = await fetch('/botes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        alert('✅ Bote registrado con éxito');
+        e.target.reset();
+      } else {
+        const error = await res.json();
+        alert('❌ Error: ' + (error.error || 'No se pudo registrar'));
+      }
+    });
+  </script>
+</body>
+</html>
