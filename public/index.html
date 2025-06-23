@@ -1,21 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Gestión de Botes de Residuos</title>
-  <link rel="stylesheet" href="estilos.css">
+  <meta charset="UTF-8" />
+  <title>Menú Principal</title>
+  <link rel="stylesheet" href="estilos.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f1f5f9;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    h1 {
+      background-color: #2563eb;
+      color: white;
+      padding: 20px;
+      margin: 0;
+    }
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 50px;
+      align-items: center;
+    }
+    .menu a {
+      text-decoration: none;
+      color: white;
+      background-color: #1e40af;
+      padding: 12px 25px;
+      border-radius: 8px;
+      transition: background 0.3s;
+      width: 250px;
+    }
+    .menu a:hover {
+      background-color: #1d4ed8;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Gestión de Botes</h1>
-    <p style="text-align: center; color: #666;">Selecciona una opción para continuar</p>
+  <h1>Registro de los centros de reciclaje</h1>
 
-    <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
-      <a href="alta.html"><button>➕ Registrar nuevo bote</button></a>
-      <a href="baja.html"><button>🗑 Dar de baja un bote</button></a>
-      <a href="actualizar.html"><button>🔧 Actualizar un bote</button></a>
-      <a href="visualizar.html"><button>📋 Ver todos los botes</button></a>
-    </div>
+  <div class="menu">
+    <a href="alta.html">➕ Alta de botes</a>
+    <a href="visualizar.html">📋 Ver botes</a>
+    <a href="baja.html">🗑️ Dar de baja</a>
+    <a href="actualizar.html">✏️ Actualizar botes</a>
   </div>
 </body>
 </html>
